@@ -1,0 +1,463 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>Icon Motion — Nine Animated Icons</title>
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; min-height: 100svh; display: grid; place-items: center;
+    background: #F9FAFB; color: #202020; font: 14px system-ui, sans-serif; }
+  main { width: min(960px, 100%); padding: 40px 32px; }
+  .modes { position: relative; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
+    width: fit-content; gap: 5px; padding: 5px;
+    margin: 0 auto 28px; border: 1px solid #e5e5e5; border-radius: 999px; background: #ededed; }
+  .modes::before { content: ''; position: absolute; z-index: 0; pointer-events: none;
+    top: 5px; bottom: 5px; left: 5px; width: calc((100% - 15px) / 2);
+    border-radius: 999px; background: #fff; box-shadow: 0 1px 4px rgb(0 0 0 / 8%);
+    transform: translateX(0); transition: transform 280ms cubic-bezier(.22, 1, .36, 1); }
+  .modes:has(#hover-mode[aria-pressed="true"])::before { transform: translateX(calc(100% + 5px)); }
+  button { font: inherit; color: inherit; cursor: pointer; touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent; }
+  .modes button { position: relative; z-index: 1; padding: 10px 24px; border: 0;
+    border-radius: 999px; background: transparent; color: #606060; transition: color 180ms ease; }
+  .modes button[aria-pressed="true"] { color: #202020; }
+  .modes button:disabled { cursor: default; opacity: .45; }
+  button:focus-visible { outline: 3px solid #737373; outline-offset: 5px; }
+  .grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
+  .glass-surface {
+    border: 0.5px solid color-mix(in srgb, var(--glass-tone, #222222) 11%, transparent);
+    border-radius: var(--glass-radius, 24px);
+    background: var(--glass-background, color-mix(in srgb, var(--glass-tone, #222222) 4%, transparent));
+    box-shadow: none;
+    -webkit-backdrop-filter: blur(var(--glass-blur, 10px));
+    backdrop-filter: blur(var(--glass-blur, 10px));
+  }
+  .icon-card { min-width: 0; height: 190px; padding: 24px; display: grid; place-items: center;
+    --glass-radius: 24px; --glass-background: #FFFFFF; }
+  .animated, .animated svg { display: block; }
+  .animated svg { width: 72px; height: 72px; overflow: visible; }
+  @media (max-width: 600px) {
+    main { padding: 24px 12px; }
+    .grid { gap: 8px; }
+    .icon-card { height: 132px; padding: 8px; --glass-radius: 18px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .modes::before, .modes button { transition: none; }
+  }
+</style>
+</head>
+<body>
+<main aria-label="Animated icon preview">
+  <div class="modes" role="group" aria-label="Playback mode">
+    <button id="loop-mode" type="button" aria-pressed="true">Loop</button>
+    <button id="hover-mode" type="button" aria-pressed="false">Hover</button>
+  </div>
+  <section class="grid" id="icons" aria-label="Nine animated icons"></section>
+</main>
+<script id="icon-data" type="application/json">[{"key": "bell", "name": "Notifications", "svg": "<svg id=\"bell_3\" data-name=\"bell_3\" xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" aria-hidden=\"true\">\n  <title>bell_3<\/title>\n  <path d=\"M10.268 21a2 2 0 0 0 3.464 0\" stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"1.5\" />\n  <path d=\"M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326\" stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"1.5\" />\n<\/svg>\n"}, {"key": "gear", "name": "Settings", "svg": "<svg id=\"settings\" data-name=\"settings\" xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" aria-hidden=\"true\">\n  <title>settings<\/title>\n  <path d=\"M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915\" stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"1.5\" />\n  <circle cx=\"12\" cy=\"12\" r=\"3\" stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"1.5\" />\n<\/svg>\n"}, {"key": "download", "name": "Download", "svg": "<svg id=\"download_02\" data-name=\"download_02\" xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" aria-hidden=\"true\">\n  <title>download_02<\/title>\n  <path d=\"M16.0001 12C16.0001 12 13.0542 16 12.0001 16C10.946 16 8.00012 12 8.00012 12M12.0001 15.5L12.0001 3\" stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"1.5\" />\n  <path d=\"M17.0001 8C19.2093 8 21.0001 9.79086 21.0001 12V14.5C21.0001 16.8346 21.0001 18.0019 20.5278 18.8856C20.1549 19.5833 19.5834 20.1547 18.8857 20.5277C18.0021 21 16.8348 21 14.5001 21H9.50052C7.16551 21 5.99801 21 5.11426 20.5275C4.41677 20.1546 3.84547 19.5834 3.47258 18.8859C3.00012 18.0021 3.00012 16.8346 3.00012 14.4996V11.999C3.00067 9.79114 4.78999 8.00125 6.99785 8H7.00012\" stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"1.5\" />\n<\/svg>\n"}, {"key": "heart", "name": "Like", "svg": "<svg id=\"heart\" data-name=\"heart\" xmlns=\"http://www.w3.org/2000/svg\" fill=\"none\" viewBox=\"0 0 24 24\" stroke-width=\"1.5\" stroke=\"currentColor\" aria-hidden=\"true\" data-slot=\"icon\">\n  <title>heart<\/title>\n  <path stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z\"/>\n<\/svg>\n"}, {"key": "folder", "name": "Folder", "svg": "<svg id=\"folder_03\" data-name=\"folder_03\" xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" aria-hidden=\"true\">\n  <title>folder_03<\/title>\n  <path d=\"M2.36064 15.1788C1.98502 13.2956 1.79721 12.354 2.33084 11.7159C2.36642 11.6734 2.40405 11.6323 2.44361 11.5927C3.03686 11 4.08674 11 6.1865 11H17.8135C19.9133 11 20.9631 11 21.5564 11.5927C21.5959 11.6323 21.6336 11.6734 21.6692 11.7159C22.2028 12.354 22.015 13.2956 21.6394 15.1788C21.0993 17.8865 20.8292 19.2404 19.8109 20.0721C19.7414 20.1288 19.6698 20.1833 19.5961 20.2354C18.5163 21 17.0068 21 13.9876 21H10.0124C6.99323 21 5.48367 21 4.40387 20.2354C4.33022 20.1833 4.2586 20.1288 4.18914 20.0721C3.17075 19.2404 2.90072 17.8865 2.36064 15.1788Z\" stroke=\"currentColor\" stroke-width=\"1.5\" />\n  <path d=\"M4 11V5.5C4 4.11929 5.11929 3 6.5 3H8.92963C9.59834 3 10.2228 3.3342 10.5937 3.8906L12 6M12 6H8.5M12 6H17.5C18.8807 6 20 7.11929 20 8.5V11\" stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"1.5\" />\n<\/svg>\n"}, {"key": "menu", "name": "Menu", "svg": "<svg id=\"menu_01\" data-name=\"menu_01\" xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" aria-hidden=\"true\">\n  <title>menu_01<\/title>\n  <path d=\"M4 5L20 5\" stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"1.5\" />\n  <path d=\"M4 12L20 12\" stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"1.5\" />\n  <path d=\"M4 19L20 19\" stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"1.5\" />\n<\/svg>\n"}, {"key": "archive-x", "name": "Archive", "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" fill=\"none\" viewBox=\"0 0 24 24\" stroke-width=\"1.5\" stroke=\"currentColor\" class=\"size-6\">\n  <path stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"m20.25 7.5-.625 10.632a2.25 2.25 0 0 1-2.247 2.118H6.622a2.25 2.25 0 0 1-2.247-2.118L3.75 7.5m6 4.125 2.25 2.25m0 0 2.25 2.25M12 13.875l2.25-2.25M12 13.875l-2.25 2.25M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125Z\" />\n<\/svg>\n"}, {"key": "chart", "name": "Bar chart", "svg": "<svg width=\"24\" height=\"24\" id=\"chart_bar\" data-name=\"chart_bar\" xmlns=\"http://www.w3.org/2000/svg\" fill=\"none\" viewBox=\"0 0 24 24\" stroke-width=\"1.5\" stroke=\"currentColor\" aria-hidden=\"true\" data-slot=\"icon\"><title>chart_bar<\/title><path stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z\"/><\/svg>\n"}, {"key": "grid", "name": "Grid", "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" width=\"24\" height=\"24\" fill=\"currentColor\" aria-hidden=\"true\">\n  <title>Grid<\/title>\n  <path fill-rule=\"evenodd\" clip-rule=\"evenodd\" d=\"M3 6a3 3 0 0 1 3-3h2.25a3 3 0 0 1 3 3v2.25a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3V6Z\"/>\n  <path fill-rule=\"evenodd\" clip-rule=\"evenodd\" d=\"M12.75 6a3 3 0 0 1 3-3H18a3 3 0 0 1 3 3v2.25a3 3 0 0 1-3 3h-2.25a3 3 0 0 1-3-3V6Z\"/>\n  <path fill-rule=\"evenodd\" clip-rule=\"evenodd\" d=\"M3 15.75a3 3 0 0 1 3-3h2.25a3 3 0 0 1 3 3V18a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3v-2.25Z\"/>\n  <path fill-rule=\"evenodd\" clip-rule=\"evenodd\" d=\"M12.75 15.75a3 3 0 0 1 3-3H18a3 3 0 0 1 3 3V18a3 3 0 0 1-3 3h-2.25a3 3 0 0 1-3-3v-2.25Z\"/>\n<\/svg>\n"}]</script>
+<script>
+    'use strict';
+    // Command-aware SVG path transforms. 
+// Supports non-arc paths only; fails explicitly on A/a instead of corrupting them.
+const ARITY = {M:2,L:2,H:1,V:1,C:6,S:4,Q:4,T:2,Z:0};
+const TOKEN = /[a-zA-Z]|[-+]?(?:\d+\.?\d*|\.\d+)(?:[eE][-+]?\d+)?/g;
+
+function pathTokens(source) {
+  if(typeof source!=='string'||!source.trim())throw new Error('Expected a nonempty SVG path');
+  const tokens=[];let end=0;
+  for(const match of source.matchAll(TOKEN)) {
+    if(!/^[\s,]*$/.test(source.slice(end,match.index)))throw new Error('Invalid SVG path token');
+    tokens.push(match[0]);end=match.index+match[0].length;
+  }
+  if(!/^[\s,]*$/.test(source.slice(end)))throw new Error('Invalid SVG path suffix');
+  return tokens;
+}
+
+function absolutePath(source) {
+  const tokens=pathTokens(source), result=[];
+  let i=0,command=null,x=0,y=0,startX=0,startY=0;
+  const isCommand=t=>typeof t==='string'&&/^[a-zA-Z]$/.test(t);
+  while(i<tokens.length) {
+    if(isCommand(tokens[i]))command=tokens[i++];
+    else if(!command)throw new Error('SVG path data needs a command');
+    const kind=command.toUpperCase(), relative=command!==kind;
+    if(kind==='A')throw new Error('Arc commands A/a are not supported; use native transforms or an arc-aware library');
+    if(!(kind in ARITY))throw new Error(`Unsupported SVG command: ${command}`);
+    if(!result.length&&kind!=='M')throw new Error('SVG path must start with M/m');
+    if(kind==='Z') {
+      result.push(['Z']);x=startX;y=startY;command=null;continue;
+    }
+    const count=ARITY[kind],values=[];
+    for(let n=0;n<count;n++) {
+      if(i>=tokens.length||isCommand(tokens[i]))throw new Error(`Incomplete ${command} command`);
+      const value=Number(tokens[i++]);
+      if(!Number.isFinite(value))throw new Error('SVG path contains a non-finite coordinate');
+      values.push(value);
+    }
+    if(kind==='H') {x=values[0]+(relative?x:0);result.push(['L',x,y]);}
+    else if(kind==='V') {y=values[0]+(relative?y:0);result.push(['L',x,y]);}
+    else {
+      const coords=values.map((value,n)=>value+(relative?(n%2?y:x):0));
+      result.push([kind,...coords]);x=coords.at(-2);y=coords.at(-1);
+      if(kind==='M'){startX=x;startY=y;command=relative?'l':'L';}
+    }
+  }
+  return result;
+}
+
+function transformPath(source,matrix=[1,0,0,1,0,0]) {
+  if(!Array.isArray(matrix)||matrix.length!==6||!matrix.every(Number.isFinite))throw new Error('Expected a finite six-number SVG matrix');
+  const [a,b,c,d,e,f]=matrix;
+  const number=value=>{
+    if(!Number.isFinite(value))throw new Error('Transformed coordinate is not finite');
+    return String(Number(value.toFixed(6)));
+  };
+  return absolutePath(source).map(([kind,...values])=>{
+    const transformed=[];
+    for(let i=0;i<values.length;i+=2) {
+      const x=values[i],y=values[i+1];
+      transformed.push(number(a*x+c*y+e),number(b*x+d*y+f));
+    }
+    return kind+transformed.join(' ');
+  }).join(' ');
+}
+
+    /* Supplied SVG artwork, separated into rigid parts. No external dependencies. */
+(() => {
+  'use strict';
+  const NS = 'http://www.w3.org/2000/svg';
+  const zero = () => ({ lidY: 0, lidAngle: 0, markAngle: 0, bellAngle: 0, clapperAngle: 0 });
+  const smooth = t => (1 - Math.cos(Math.PI * Math.max(0, Math.min(1, t)))) / 2;
+  const mix = (a, b, p) => Object.fromEntries(Object.keys(a).map(k => [k, a[k] + (b[k] - a[k]) * p]));
+  const pose = values => ({ ...zero(), ...values });
+  const originals = {
+    archive: 'm20.25 7.5-.625 10.632a2.25 2.25 0 0 1-2.247 2.118H6.622a2.25 2.25 0 0 1-2.247-2.118L3.75 7.5m6 4.125 2.25 2.25m0 0 2.25 2.25M12 13.875l2.25-2.25M12 13.875l-2.25 2.25M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125Z',
+    bell: 'M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0'
+  };
+  const outerBell = 'M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31';
+  const frames = {
+    archive: [[0, zero()], [.32, pose({ lidY: -2.1, lidAngle: -2, markAngle: 60 })], [.56, pose({ lidY: -1.7, lidAngle: -1.5, markAngle: 94 })], [.76, pose({ lidY: -1.8, lidAngle: -1.5, markAngle: 90 })], [1, pose({ lidY: -1.8, lidAngle: -1.5, markAngle: 90 })]],
+    bell: [[0, zero()], [.12, pose({ bellAngle: -11, clapperAngle: 3 })], [.28, pose({ bellAngle: 10, clapperAngle: -6 })], [.44, pose({ bellAngle: -7, clapperAngle: 5 })], [.6, pose({ bellAngle: 5, clapperAngle: -3.5 })], [.76, pose({ bellAngle: -2.7, clapperAngle: 2 })], [.9, pose({ bellAngle: 1, clapperAngle: -.8 })], [1, zero()]]
+  };
+  function sample(type, progress, from = zero()) {
+    const list = frames[type];
+    const p = Math.max(0, Math.min(1, progress));
+    for (let i = 1; i < list.length; i++) if (p <= list[i][0]) {
+      const [t0, v0] = list[i - 1], [t1, v1] = list[i];
+      return mix(i === 1 ? from : v0, v1, smooth((p - t0) / (t1 - t0)));
+    }
+    return { ...list.at(-1)[1] };
+  }
+  function svgRoot() {
+    const svg = document.createElementNS(NS, 'svg');
+    for (const [k, v] of Object.entries({ xmlns: NS, viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', 'stroke-width': '1.5', 'stroke-linecap': 'round', 'stroke-linejoin': 'round', width: '24', height: '24', 'aria-hidden': 'true', focusable: 'false' })) svg.setAttribute(k, v);
+    svg.style.overflow = 'hidden';
+    return svg;
+  }
+  function original(type) {
+    const svg = svgRoot();
+    svg.innerHTML = `<path d="${originals[type]}"/>`;
+    return svg;
+  }
+  // IDs remain unique even if the library is loaded twice on a page.
+  function nextId() {
+    let id;
+    do {
+      window.__svgIconMotionSerial = (window.__svgIconMotionSerial || 0) + 1;
+      id = `icon-motion-${window.__svgIconMotionSerial}`;
+    } while (document.getElementById(id));
+    return id;
+  }
+  function create(type) {
+    if (!frames[type]) throw new TypeError(`Unknown icon: ${type}`);
+    const svg = svgRoot();
+    svg.dataset.motionIcon = type;
+    if (type === 'archive') {
+      svg.innerHTML = `<path d="M20.25 7.5l-.625 10.632a2.25 2.25 0 0 1-2.247 2.118H6.622a2.25 2.25 0 0 1-2.247-2.118L3.75 7.5"/>
+        <g data-part="mark"><path d="M9.75 11.625l2.25 2.25m0 0 2.25 2.25M12 13.875l2.25-2.25M12 13.875l-2.25 2.25"/></g>
+        <g data-part="lid"><path d="M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125Z"/></g>`;
+    } else {
+      const id = nextId();
+      // A real transparent mask hides the clapper behind the bell, on any background.
+      svg.innerHTML = `<defs><mask id="${id}" x="-24" y="-24" width="72" height="72" maskUnits="userSpaceOnUse" style="mask-type:luminance">
+        <rect x="-24" y="-24" width="72" height="72" fill="white" stroke="none"/>
+        <path d="${outerBell}a24.255 24.255 0 0 0 5.714 0Z" fill="black" stroke="black" stroke-width="1.5"/>
+        </mask></defs><g data-part="bell"><g data-part="occlusion" data-mask="${id}"><g data-part="clapper"><path d="M14.857 17.082a3 3 0 1 1-5.714 0"/></g></g>
+        <path d="${outerBell}m5.714 0a24.255 24.255 0 0 1-5.714 0"/></g>`;
+    }
+    render(svg, zero());
+    return svg;
+  }
+  const fmt = n => Math.abs(n) < .000001 ? '0' : n.toFixed(6);
+  function render(svg, state) {
+    const part = name => svg.querySelector(`[data-part="${name}"]`);
+    const transform = (el, value, active) => active ? el.setAttribute('transform', value) : el.removeAttribute('transform');
+    if (svg.dataset.motionIcon === 'archive') {
+      transform(part('lid'), `translate(0 ${fmt(state.lidY)}) rotate(${fmt(state.lidAngle)} 12 5.625)`, state.lidY || state.lidAngle);
+      transform(part('mark'), `rotate(${fmt(state.markAngle)} 12 13.875)`, state.markAngle);
+    } else {
+      transform(part('bell'), `rotate(${fmt(state.bellAngle)} 12 3.75)`, state.bellAngle);
+      transform(part('clapper'), `rotate(${fmt(state.clapperAngle)} 12 16.7)`, state.clapperAngle);
+      const cover = part('occlusion');
+      if (Math.abs(state.clapperAngle) > .000001) cover.setAttribute('mask', `url(#${cover.dataset.mask})`);
+      else cover.removeAttribute('mask');
+    }
+  }
+  window.SuppliedIconMotion = { create, original, sample, render };
+})();
+
+    const icons = JSON.parse(document.getElementById('icon-data').textContent);
+    const grid = document.getElementById('icons');
+    const reduceQuery = matchMedia('(prefers-reduced-motion: reduce)');
+    let reduced = reduceQuery.matches;
+    let mode = 'loop', time = 0, last = 0, raf = 0, suspended = false;
+    const listeners = [];
+    function listen(target, event, handler) {
+      target.addEventListener(event, handler);
+      listeners.push(() => target.removeEventListener(event, handler));
+    }
+    const ease = t => t < .5 ? 4*t*t*t : 1-Math.pow(-2*t+2,3)/2;
+    const out = t => 1-Math.pow(1-t,3);
+    const mix = (a,b,t) => a.map((v,i) => v+(b[i]-v)*t);
+    const round = x => Number(x.toFixed(5));
+    const motion = {
+      bell: {duration:1100,rest:[0,0],keys:[[0,[0,0]],[.13,[-17,8]],[.31,[14,-11]],[.48,[-10,7]],[.64,[7,-4]],[.81,[-3,2]],[1,[0,0]]]},
+      gear: {duration:820,rest:[0],keys:[[0,[0]],[.78,[96]],[1,[90]]]},
+      download: {duration:800,rest:[0],keys:[[0,[0]],[.25,[-1.5]],[.7,[3]],[1,[2.2]]]},
+      heart: {duration:1000,rest:[1],keys:[[0,[1]],[.2,[1.18]],[.38,[.98]],[.58,[1.13]],[1,[1.055]]]},
+      folder: {duration:850,rest:[0],keys:[[0,[0]],[.8,[1.03]],[1,[1]]]},
+      menu: {duration:700,rest:[0],keys:[[0,[0]],[.82,[1.025]],[1,[1]]]},
+      'archive-x': {duration:760,rest:[0,0,0],keys:[[0,[0,0,0]],[1,[-1.8,-1.5,90]]],suppliedType:'archive',fields:['lidY','lidAngle','markAngle']},
+      chart: {duration:1180,rest:[0,0,0],keys:[[0,[0,0,0]],[1,[0,0,0]]],staggeredBars:true},
+      grid: {duration:1180,rest:[0,0,0,0],keys:[[0,[0,0,0,0]],[1,[0,0,0,0]]],staggeredGrid:true}
+    };
+    function cleanSvg(raw) {
+      const doc = new DOMParser().parseFromString(raw,'image/svg+xml');
+      const svg = doc.documentElement;
+      svg.removeAttribute('id'); svg.removeAttribute('data-name');
+      svg.setAttribute('focusable','false');
+      return new XMLSerializer().serializeToString(svg);
+    }
+    const states = icons.map((icon,index) => {
+      const card = document.createElement('button');
+      card.type='button';card.className='icon-card glass-surface';card.dataset.icon=icon.key;
+      card.setAttribute('aria-label','Animate ' + icon.name.toLowerCase());
+      const svg = cleanSvg(icon.svg);
+      card.innerHTML=`<span class="animated">${svg}</span>`;
+      grid.appendChild(card);
+      let drawing=card.querySelector('.animated svg');
+      if(motion[icon.key].suppliedType) {
+        const layered=SuppliedIconMotion.create(motion[icon.key].suppliedType);
+        drawing.replaceWith(layered);drawing=layered;
+      }
+      const paths=[...drawing.querySelectorAll('path')];
+      return {icon,index,card,drawing,paths, 
+        originals:paths.map(p=>[...p.attributes].map(a=>[a.name,a.value])),
+        values:[...motion[icon.key].rest],job:null,pointer:false,keyboard:false,touch:false};
+    });
+    function restore(s) {
+      if(motion[s.icon.key].suppliedType) {
+        render(s,[...motion[s.icon.key].rest]);
+        return;
+      }
+      s.paths.forEach((path,i)=>{
+        [...path.attributes].forEach(a=>path.removeAttribute(a.name));
+        s.originals[i].forEach(([name,value])=>path.setAttribute(name,value));
+      });
+      s.values=[...motion[s.icon.key].rest];
+    }
+    // Parse commands before folding: H/V are not coordinate pairs.
+    function foldPath(d, amount) {
+      const sy=1-.31*amount;
+      return transformPath(d,[1,0,0,sy,0,21*(1-sy)]);
+    }
+    // Move the upper corners only: the baseline, width and corner radii stay fixed.
+    function barPath(index, delta) {
+      const x=[3,9.75,16.5][index],y=[12,7.5,3][index]+delta;
+      return `M${x} ${round(y+1.125)}C${x} ${round(y+.504)} ${x+.504} ${round(y)} ${x+1.125} ${round(y)}h2.25c.621 0 1.125 .504 1.125 1.125V19.875c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V${round(y+1.125)}Z`;
+    }
+    function render(s,v) {
+      s.values=v;
+      const def=motion[s.icon.key];
+      if(def.suppliedType) {
+        SuppliedIconMotion.render(s.drawing,Object.fromEntries(def.fields.map((field,i)=>[field,v[i]])));
+        return;
+      }
+      const p=s.paths;
+      switch(s.icon.key) {
+        case 'bell': p[1].setAttribute('transform',`rotate(${round(v[0])} 12 3)`);p[0].setAttribute('transform',`rotate(${round(v[1])} 12 17)`);break;
+        case 'gear': p[0].setAttribute('transform',`rotate(${round(v[0])} 12 12)`);break;
+        case 'download': p[0].setAttribute('transform',`translate(0 ${round(v[0])})`);break;
+        case 'heart': p[0].setAttribute('transform',`translate(12 12) scale(${round(v[0])}) translate(-12 -12)`);break;
+        case 'grid':
+          p.forEach((path,i)=>{
+            if(Math.abs(v[i])<.000001)path.removeAttribute('transform');
+            else path.setAttribute('transform',`translate(0 ${round(v[i])})`);
+          });
+          break;
+        case 'chart': {
+          const original=s.originals[0].find(a=>a[0]==='d')[1];
+          p[0].setAttribute('d',v.every(x=>Math.abs(x)<.000001)?original:v.map((value,i)=>barPath(i,value)).join(''));
+          break;
+        }
+        case 'folder': {
+          const original=i=>s.originals[i].find(a=>a[0]==='d')[1];
+          p[0].setAttribute('d',foldPath(original(0),v[0]));
+          const edge=round(21+(11-21)*(1-.31*v[0]));
+          const back=absolutePath(original(1));
+          // These two open endpoints meet the front's moving top edge.
+          back[0][2]=edge;back.at(-1)[2]=edge;
+          p[1].setAttribute('d',back.map(([cmd,...coords])=>cmd+coords.join(' ')).join(' '));break;
+        }
+        case 'menu': {
+          const x=v[0];
+          p[0].setAttribute('transform',`translate(0 ${round(7*x)}) rotate(${round(45*x)} 12 5)`);
+          p[1].setAttribute('opacity',Math.max(0,1-x));
+          p[1].setAttribute('transform',`translate(12 0) scale(${Math.max(0,1-x)} 1) translate(-12 0)`);
+          p[2].setAttribute('transform',`translate(0 ${round(-7*x)}) rotate(${round(-45*x)} 12 19)`);break;
+        }
+      }
+    }
+    function sample(def,t) {
+      if(def.staggeredGrid) {
+        return [0,100,300,200].map(delay=>{
+          const p=Math.max(0,Math.min(1,(t*def.duration-delay)/780));
+          const keys=[[0,0],[.28,-1.1],[.61,.13],[.82,-.08],[1,0]];
+          for(let n=1;n<keys.length;n++)if(p<=keys[n][0]) {
+            const [a,x]=keys[n-1],[b,y]=keys[n],q=(p-a)/(b-a);
+            return x+(y-x)*q*q*(3-2*q);
+          }
+          return 0;
+        });
+      }
+      if(def.staggeredBars) {
+        return [0,100,200].map((delay,i)=>{
+          const p=Math.max(0,Math.min(1,(t*def.duration-delay)/920));
+          const keys=[[0,0],[.32,[3,5,7.2][i]],[.7,-.5],[.86,.15],[1,0]];
+          for(let n=1;n<keys.length;n++)if(p<=keys[n][0]) {
+            const [a,x]=keys[n-1],[b,y]=keys[n],q=(p-a)/(b-a);
+            return x+(y-x)*q*q*(3-2*q);
+          }
+          return 0;
+        });
+      }
+      if(def.suppliedType) {
+        const pose=SuppliedIconMotion.sample(def.suppliedType,t);
+        return def.fields.map(field=>pose[field]);
+      }
+      for(let i=1;i<def.keys.length;i++) {
+        const [end,b]=def.keys[i], [start,a]=def.keys[i-1];
+        if(t<=end)return mix(a,b,ease((t-start)/(end-start)));
+      }
+      return [...def.keys.at(-1)[1]];
+    }
+    function wake() {if(!raf&&!document.hidden&&!suspended){last=performance.now();raf=requestAnimationFrame(tick);}}
+    function play(s) {
+      if(reduced){restore(s);s.job=null;return;}
+      s.job={kind:'play',start:time,from:[...s.values]};wake();
+    }
+    function reset(s,after=false) {
+      if(reduced){restore(s);s.job=null;return;}
+      s.job={kind:'reset',start:time,from:[...s.values],after};wake();
+    }
+    function tick(now) {
+      raf=0;if(document.hidden)return;
+      time+=Math.min(now-last,64);last=now;
+      for(const s of states) {
+        const job=s.job;if(!job)continue;
+        const def=motion[s.icon.key],elapsed=time-job.start;
+        if(job.kind==='wait') {
+          if(elapsed>=job.duration) job.next==='play'?play(s):reset(s,true);
+        } else if(job.kind==='play') {
+          const t=Math.min(1,elapsed/def.duration);
+          const value=sample(def,t).map((v,i)=>v+(job.from[i]-def.rest[i])*(1-out(t)));
+          render(s,value);
+          if(t===1)s.job=mode==='loop'?{kind:'wait',next:'reset',duration:300,start:time}:null;
+        } else {
+          const t=Math.min(1,elapsed/360);
+          render(s,mix(job.from,def.rest,out(t)));
+          if(t===1){restore(s);s.job=job.after&&mode==='loop'?{kind:'wait',next:'play',duration:420,start:time}:null;}
+        }
+      }
+      if(states.some(s=>s.job)&&!raf)raf=requestAnimationFrame(tick);
+    }
+    function active(s){return s.pointer||s.keyboard||s.touch;}
+    function activate(s, key, value) {
+      const wasActive=active(s);
+      s[key]=value;
+      if(mode!=='hover')return;
+      if(!wasActive&&active(s))play(s);
+      else if(wasActive&&!active(s))reset(s);
+    }
+    states.forEach(s=>{
+      listen(s.card,'pointerenter',e=>{if(e.pointerType!=='touch')activate(s,'pointer',true);});
+      listen(s.card,'pointerleave',e=>{if(e.pointerType!=='touch')activate(s,'pointer',false);});
+      listen(s.card,'focus',()=>activate(s,'keyboard',s.card.matches(':focus-visible')));
+      listen(s.card,'blur',()=>{
+        const wasActive=active(s);s.keyboard=false;s.touch=false;
+        if(wasActive&&!active(s)&&mode==='hover')reset(s);
+      });
+      listen(s.card,'pointerdown',e=>{s.inputType=e.pointerType;});
+      listen(s.card,'click',e=>{
+        if(mode!=='hover')return;
+        if(e.detail===0){if(!s.job||s.job.kind!=='play')play(s);return;}
+        if(s.inputType==='touch'){
+          s.touch=!s.touch;
+          if(s.touch)play(s);else if(!active(s))reset(s);
+        }
+      });
+    });
+    function setMode(next) {
+      mode=next;
+      document.getElementById('hover-mode').setAttribute('aria-pressed',mode==='hover');
+      document.getElementById('loop-mode').setAttribute('aria-pressed',mode==='loop');
+      states.forEach(s=>{s.touch=false;reset(s,mode==='loop'&&!reduced);});
+      if(states.some(s=>s.job))wake();
+    }
+    listen(document.getElementById('hover-mode'),'click',()=>setMode('hover'));
+    listen(document.getElementById('loop-mode'),'click',()=>setMode('loop'));
+    listen(document,'visibilitychange',()=>{
+      if(document.hidden){cancelAnimationFrame(raf);raf=0;}
+      else if(states.some(s=>s.job))wake();
+    });
+    function updateReduced(){
+      reduced=reduceQuery.matches;
+      document.getElementById('loop-mode').disabled=reduced;
+      if(reduced){cancelAnimationFrame(raf);raf=0;setMode('hover');}
+    }
+    listen(reduceQuery,'change',updateReduced);updateReduced();
+    if(!reduced)states.forEach(s=>play(s));
+    // Stop background work during navigation, including back/forward caching.
+    listen(window,'pagehide',event=>{
+      cancelAnimationFrame(raf);raf=0;suspended=true;
+      if(!event.persisted){states.forEach(s=>{restore(s);s.job=null;});listeners.splice(0).forEach(remove=>remove());}
+    });
+    listen(window,'pageshow',event=>{
+      if(event.persisted){suspended=false;if(states.some(s=>s.job))wake();}
+    });
+    // Test-only snapshots use the real renderer on detached clones.
+    if(new URLSearchParams(location.search).has('inspect'))window.iconMotionInspect={
+      ids:()=>icons.map(icon=>icon.key),
+      original:id=>{
+        const state=states.find(s=>s.icon.key===id);
+        if(!state)throw new Error('Unknown icon: '+id);
+        return new DOMParser().parseFromString(cleanSvg(state.icon.svg),'image/svg+xml').documentElement;
+      },
+      frame(id,{phase='forward',progress=0,fromProgress=1}={}) {
+        if(!['forward','return'].includes(phase)||![progress,fromProgress].every(p=>Number.isFinite(p)&&p>=0&&p<=1))throw new Error('Invalid snapshot phase or progress');
+        const source=states.find(s=>s.icon.key===id);
+        if(!source)throw new Error('Unknown icon: '+id);
+        const def=motion[id];
+        const drawing=def.suppliedType?SuppliedIconMotion.create(def.suppliedType):this.original(id);
+        const clone={...source,drawing,paths:[...drawing.querySelectorAll('path')],values:[...def.rest]};
+        const values=phase==='forward'?sample(def,progress):mix(sample(def,fromProgress),def.rest,out(progress));
+        if((phase==='forward'&&progress===0)||(phase==='return'&&progress===1))restore(clone);else render(clone,values);
+        return drawing;
+      }
+    };
+
+</script>
+</body>
+</html>
